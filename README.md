@@ -6,7 +6,7 @@ A simple collaborative TODO list application for AI Interest Group members.
 
 1. Clone the repository:
 ```bash
-git clone [your-repo-url]
+git clone git@github.com:leiliu98/shared-todo-list.git
 ```
 
 2. Navigate to the project directory:
