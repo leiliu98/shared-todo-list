@@ -11,7 +11,7 @@ git clone git@github.com:leiliu98/shared-todo-list.git
 
 2. Navigate to the project directory:
 ```bash
-cd my-app
+cd shared-todo-list/my-app
 ```
 
 3. Install dependencies:
