@@ -8,7 +8,7 @@
             Next.js (React framework for SSR, SSG, and routing)
         Languages:
             TypeScript (strict typing and maintainable code)
-            JavaScript (for dynamic behavior)
+            JSX (for dynamic behavior)
         Styling:
             TailwindCSS (utility-first CSS framework)
             Shadcn UI & Radix UI (modern, accessible component libraries)
