@@ -3,29 +3,55 @@
 import * as React from "react";
 import DueDatePicker from "../../components/DueDatePicker";
 
-// Mock task model for demonstration purposes
-const tasks = [
-  {
-    id: "1",
-    title: "Research latest LLM developments",
-    dueDate: "2023-12-01",
-  },
-  {
-    id: "2",
-    title: "Schedule next AI meetup",
-    dueDate: "2023-12-05",
-  },
-  {
-    id: "3",
-    title: "Share interesting AI papers",
-    dueDate: "2023-12-10",
-  },
-];
+// Define the Task interface
+interface Task {
+  id: string;
+  title: string;
+  dueDate: string;
+}
 
 export default function Home() {
-  const updateDueDate = (id: string, newDate: string) => {
-    console.log(`Task ${id} due date updated to ${newDate}`);
-    // Here you would update the task in your state or database
+  const [tasks, setTasks] = React.useState<Task[]>([]);
+
+  // Fetch tasks from the backend
+  React.useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        const response = await fetch("https://api.example.com/tasks");
+        const data = await response.json();
+        setTasks(data);
+      } catch (error) {
+        console.error("Error fetching tasks:", error);
+      }
+    };
+
+    fetchTasks();
+  }, []);
+
+  const updateDueDate = async (id: string, newDate: string) => {
+    try {
+      const response = await fetch(`https://api.example.com/tasks/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ dueDate: newDate }),
+      });
+
+      if (response.ok) {
+        console.log(`Task ${id} due date updated to ${newDate}`);
+        // Optionally, refetch tasks or update state directly
+        setTasks((prevTasks) =>
+          prevTasks.map((task) =>
+            task.id === id ? { ...task, dueDate: newDate } : task
+          )
+        );
+      } else {
+        console.error("Failed to update task due date");
+      }
+    } catch (error) {
+      console.error("Error updating task due date:", error);
+    }
   };
 
   return (
