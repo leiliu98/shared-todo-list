@@ -1,11 +1,10 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 
-// Assume TaskModel is imported and has methods to get and update the due date
 interface TaskModel {
   id: string;
-  dueDate: string;
+  dueDate: string | null | undefined;
 }
 
 interface DueDatePickerProps {
@@ -13,16 +12,9 @@ interface DueDatePickerProps {
   onUpdateDueDate: (id: string, newDate: string) => void;
 }
 
-const DueDatePicker: React.FC<DueDatePickerProps> = ({ task, onUpdateDueDate }) => {
-  const [dueDate, setDueDate] = useState(task.dueDate);
-
-  useEffect(() => {
-    setDueDate(task.dueDate);
-  }, [task.dueDate]);
-
+const DueDatePicker = ({ task, onUpdateDueDate }: DueDatePickerProps) => {
   const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newDate = event.target.value;
-    setDueDate(newDate);
     onUpdateDueDate(task.id, newDate);
   };
 
@@ -34,7 +26,7 @@ const DueDatePicker: React.FC<DueDatePickerProps> = ({ task, onUpdateDueDate }) 
       <input
         type="date"
         id={`due-date-${task.id}`}
-        value={dueDate}
+        value={task.dueDate || ''}
         onChange={handleDateChange}
         className="p-1 border rounded-md dark:bg-gray-700 dark:border-gray-600"
       />

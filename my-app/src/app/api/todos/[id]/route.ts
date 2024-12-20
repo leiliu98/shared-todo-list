@@ -3,15 +3,15 @@ import { prisma } from '../../../../../lib/prisma';
 
 export async function PATCH(
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
-    const json = await request.json();
-    const { dueDate } = json;
+    const params = await context.params;
+    const body = await request.json();
+    const { dueDate } = body;
 
     const todo = await prisma.todo.update({
-      where: { id },
+      where: { id: params.id },
       data: {
         dueDate: dueDate ? new Date(dueDate) : null,
       },
@@ -29,13 +29,13 @@ export async function PATCH(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
-
+    const params = await context.params;
+    
     await prisma.todo.delete({
-      where: { id },
+      where: { id: params.id },
     });
 
     return new NextResponse(null, { status: 204 });
